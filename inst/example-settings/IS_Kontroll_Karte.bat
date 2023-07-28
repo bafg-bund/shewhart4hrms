@@ -1,0 +1,1 @@
+"C:\Software\R\R-4.2.0\bin\R.exe" -e "shiny::runApp('Z:/G/G2/HRMS/sw_entwicklung/IS_Kontrollkarten/IS_Kontroll_Karten/app_IS.R', launch.browser = TRUE)"
