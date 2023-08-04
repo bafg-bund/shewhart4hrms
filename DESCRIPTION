@@ -2,14 +2,28 @@ Package: shewhart4hrms
 Type: Package
 Title: Shewhart control cards for quality control in high-resolution mass spectrometry
 Version: 0.1
-Date: 2022-11-15
-Author: German Federal Institute of Hydrology (Bundesanstalt fuer Gewaesserkunde)
-Maintainer: Kevin Jewell <jewell@bafg.de>
+Date: 2023-08-04
+Authors@R: c(
+             person(
+               c("Kevin", "S."), "Jewell", email = "Jewell@bafg.de", role = c("aut", "cre"),
+               comment = "Federal Institute of Hydrology (BfG) Koblenz, Germany"
+              ),
+             person(
+               "Toni", "Köppe", email = "Koeppe@bafg.de", role = "aut",
+               comment = "Federal Institute of Hydrology (BfG) Koblenz, Germany"),
+             person(
+                "Christian", "Dietrich", email = "Christian.Dietrich@bafg.de", role = c("aut"),
+                comment = "Federal Institute of Hydrology (BfG) Koblenz, Germany"
+              ),
+             person(
+               "Arne", "Wick", email = "Wick@bafg.de", role = "aut",
+               comment = "Federal Institute of Hydrology (BfG) Koblenz, Germany")
+             )
 Description: A package for automated processing of LC-HRMS data to record intensity, 
   retention time, mass accuracy and peak width of user defined internal standards.
   The data is displayed in the form of Shewhart control charts and density distributions
   along with user defined warning limits for quick visual indidication of exceedances.
-License: GPL v3 or higher
+License: GNU GPL-3.0
 Imports: Rcpp (>= 1.0.9)
 Encoding: UTF-8
 LinkingTo: Rcpp, RcppArmadillo
