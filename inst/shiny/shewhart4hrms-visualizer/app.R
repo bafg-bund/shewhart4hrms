@@ -50,6 +50,8 @@ KOKAP <- file.path(globalwd, "results", "shewhart-pos.Report")
 KOKAN <- file.path(globalwd, "results", "shewhart-neg.Report")
 POS_RES <- file.path(globalwd, "results", "pos_res.csv")
 NEG_RES <- file.path(globalwd, "results", "neg_res.csv")
+POS_FILE_PATTERN <- se$file_pattern_pos
+NEG_FILE_PATTERN <- se$file_pattern_neg
 POS_RES_GRAPH <- file.path(globalwd, "results", "pos_res_graph.csv")
 NEG_RES_GRAPH <- file.path(globalwd, "results", "neg_res_graph.csv")
 IS_TABLE_POS <- file.path(globalwd, "settings", "is-table-pos.csv")
@@ -248,11 +250,11 @@ server <- function(input, output, session) {
 
     
     # check that all files have either pos or neg in name
-    filesOk <- grepl("pos|neg", list.files(MZXML_DATA_FILES))
+    filesOk <- grepl(paste(POS_FILE_PATTERN, NEG_FILE_PATTERN, sep="|"), list.files(MZXML_DATA_FILES))
     if (!all(filesOk)) {
       showNotification(
         paste(
-          "All files must contain 'pos' or 'neg' in the name",
+          "All files must contain '",POS_FILE_PATTERN,"' or '",NEG_FILE_PATTERN,"' in the name",
           "The following files are not valid:",
           paste(list.files(MZXML_DATA_FILES)[!filesOk], collapse = ", ")
         ), 
@@ -264,7 +266,8 @@ server <- function(input, output, session) {
     
     new_files <- function(pola) {
       polRes <- read.csv(switch(pola, pos = POS_RES, neg = NEG_RES))
-      allFilesPol <- list.files(MZXML_DATA_FILES, pattern = pola, full.names = T)
+      pattern <- switch(pola, pos=POS_FILE_PATTERN, neg=NEG_FILE_PATTERN)
+      allFilesPol <- list.files(MZXML_DATA_FILES, pattern = pattern, full.names = T)
       allFilesPol[!is.element(basename(allFilesPol), polRes$samp)]
     }
     

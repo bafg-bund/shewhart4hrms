@@ -172,17 +172,17 @@ initiate <- function(path) {
   posFiles <- list.files(
     file.path(path, "mzXML-data-files"), 
     full.names = TRUE, 
-    pattern=".*pos.*\\.mzXML$"
+    pattern=paste0(sings$file_pattern_pos, "\\.mzX?ML$")
   )
   
   negFiles <- list.files(
     file.path(path, "mzXML-data-files"), 
     full.names = TRUE, 
-    pattern=".*neg.*\\.mzXML$"
+    pattern=paste0(sings$file_pattern_neg, "\\.mzX?ML$")
   )
   
   if (length(posFiles) == 0 && length(negFiles) == 0)
-    stop("No mzXML files with 'pos' or 'neg' in name found in ", file.path(path, "mzXML-data-files"))
+    stop("No mzXML files with '",sings$file_pattern_pos ,"' or '", sings$file_pattern_neg,"' in name found in ", file.path(path, "mzXML-data-files"))
   
   
   if (length(posFiles) > 0) {
