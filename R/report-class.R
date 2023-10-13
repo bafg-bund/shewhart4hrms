@@ -144,7 +144,7 @@ Report <- setRefClass(
       if (dialog)
         dir_path <- rstudioapi::selectDirectory(path = "~", caption = "Select directory containing mzXML files")
       
-      newFiles <- list.files(dir_path, pattern = "*\\.mzXML$", full.names = TRUE)
+      newFiles <- list.files(dir_path, pattern = "*\\.mzX?ML$", full.names = TRUE)
       # you are not allowed to have samples with the same name.
       testMe <- append(basename(rawFiles), basename(newFiles))
       if (anyDuplicated(testMe)) {
