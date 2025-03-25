@@ -23,8 +23,8 @@
 #' See the Readme.md file for a description of how to use shewhart4hrms
 #' 
 #'
-#' @docType package
 #' @name shewhart4hrms
-#' @useDynLib shewhart4hrms, .registration=TRUE
-#' @importFrom Rcpp evalCpp
-NULL
+#' @import ntsworkflow
+#' @import glue
+#' @import logger
+"_PACKAGE"

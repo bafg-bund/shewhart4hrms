@@ -4,7 +4,7 @@
 \alias{initiate}
 \title{Initiate processing of mzXML files}
 \usage{
-initiate(path)
+initiate(path, polarity = "pos")
 }
 \arguments{
 \item{path}{Path to shewhart4hrms directory}

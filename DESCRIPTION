@@ -1,8 +1,8 @@
 Package: shewhart4hrms
 Type: Package
 Title: Shewhart control cards for quality control in high-resolution mass spectrometry
-Version: 0.1
-Date: 2023-08-04
+Version: 0.2
+Date: 2025-03-04
 Authors@R: c(
              person(
                c("Kevin", "S."), "Jewell", email = "Jewell@bafg.de", role = c("aut", "cre"),
@@ -24,7 +24,8 @@ Description: A package for automated processing of LC-HRMS data to record intens
   The data is displayed in the form of Shewhart control charts and density distributions
   along with user defined warning limits for quick visual indidication of exceedances.
 License: GNU GPL-3.0
-Imports: Rcpp (>= 1.0.9)
 Encoding: UTF-8
-LinkingTo: Rcpp, RcppArmadillo
-RoxygenNote: 7.2.1
+RoxygenNote: 7.3.2
+Suggests: 
+    testthat (>= 3.0.0)
+Config/testthat/edition: 3
