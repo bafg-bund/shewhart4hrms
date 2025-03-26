@@ -12,16 +12,31 @@ makeTrendPlot <- function(df, dates, type) {
   ploti <- ggplot(df, aes_(quote(time), as.name(type))) + 
     geom_point() + 
     geom_line() + 
-    facet_wrap(~ IS, scales = "free") +
-    scale_x_datetime(limits = dates) + 
+    facet_grid(rows = vars(IS), scales = "free") +
+    scale_x_datetime() + 
+    coord_cartesian(xlim = dates) +
     theme_grey(18)
-  if (type == "int_h" || type == "int_a") 
-    ploti <- ploti + scale_y_continuous(labels = function(x) format(x, digits = 1, scientific = TRUE))
+  
   ploti
 }
 
-makeBellCurve <- function(df, dates, type, pol_i, filePaths) {
+
+makeBellCurve <- function(df, dates, type, filePaths) {
   
+  newDat <- df[df$time >= dates[1] & df$time <= dates[2], ]
+  
+  newPlot <- ggplot(newDat, aes_(as.name(type))) +
+    facet_grid(rows = vars(IS), scales = "free") +
+    ylab("Density") +
+    geom_density() +
+    coord_flip() +
+    theme_grey(18)
+  
+  newPlot
+}
+
+makeBellCurveOld <- function(df, dates, type, pol_i, filePaths) {
+  dates <- fixDates(dates)
   se <- readSettings(filePaths)
   # minimale und maximale Intensitätsgrenzen
   POS_INT_RANGE_HEIGHT <- as.numeric(se$intensity_range_pos)

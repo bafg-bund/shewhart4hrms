@@ -2,25 +2,11 @@
 
 
 
-library(shiny)
-library(ggplot2)
-
-# Setup ####
-
-filesPos <- newFilePaths(globalwd, "pos")
-
 if (!exists("globalwd"))
-  stop("Path to shewhart4hrms directory not found, use shewhart4hrms::create_dir('path-to-shewart-directory')
+  stop("Path to shewhart4hrms directory not found, use shewhart4hrms::newDirTree('path-to-shewart-directory')
        to create a new folder and viewShewhart('path-to-shewart-directory') to open the app")
 
-checkShewartDir(globalwd)
-checkForPosResults(globalwd)
-
-# Load data ####
-
-dat1 <- getResults(filesPos)
-# App ####
-## ui ####
+startTimeValue <- Sys.time() - 1000
 ui <- fluidPage(
   fluidRow(
     column(3, h2(paste(
@@ -32,9 +18,9 @@ ui <- fluidPage(
         inputId = "dates",
         label = "",
         timeFormat = "%F",
-        value = c(min(dat1$time), max(dat1$time)),
-        min = min(dat1$time),
-        max = max(dat1$time),
+        value = c(startTimeValue, startTimeValue),
+        min = startTimeValue,
+        max = startTimeValue,
         width = "100%"
       )
     ),
@@ -60,23 +46,37 @@ ui <- fluidPage(
     tabsetPanel(
       tabPanel(
         "Intensity_cps",
-        fluidRow(plotOutput("inten")),
-        fluidRow(plotOutput("intenHist"))
+        column(8, plotOutput("inten")),
+        column(4, plotOutput("intenHist"))
       ),
       tabPanel(
         "Intensity_area",
-        fluidRow(plotOutput("intenA")),
-        fluidRow(plotOutput("intenAHist"))
+        column(8, plotOutput("intenA")),
+        column(4, plotOutput("intenAHist"))
       ),
-      tabPanel("Mass shift mDa", fluidRow(plotOutput("mDa")), fluidRow(plotOutput("mDaHist"))),
-      tabPanel("RT shift min", fluidRow(plotOutput("RT")), fluidRow(plotOutput("RTHist"))),
-      tabPanel("Width min", fluidRow(plotOutput("width")), fluidRow(plotOutput("widthHist")))
+      tabPanel(
+        "Mass shift mDa",
+        column(8, plotOutput("mDa")),
+        column(4, plotOutput("mDaHist"))
+      ),
+      tabPanel(
+        "RT shift min", 
+        column(8, plotOutput("RT")),
+        column(4, plotOutput("RTHist"))
+      ),
+      tabPanel(
+        "Width min", 
+        column(8, plotOutput("width")),
+        column(4, plotOutput("widthHist"))
+      )
     )
   ))
 )
 
 ## server ####
 server <- function(input, output, session) {
+  
+  checkShewartDir(globalwd)
   
   filePaths <- reactiveVal()
   
@@ -86,16 +86,21 @@ server <- function(input, output, session) {
   
   observe({
     
-    prog <- Progress$new(session, min = 0, max = 2)
+    prog <- Progress$new(session, min = 0, max = 3)
     prog$set(message = "Processing new IS files", detail = "looking for new files")
 
     checkFileNamesHavePolShiny(filePaths(), prog)
     filesHavePol <- polInFileName(filePaths())
-    req(all(filesHavePol))
+    req(any(filesHavePol))
+    
+    if (!isInitiated(filePaths())) {
+      prog$set(detail = paste("Initiating database for ESI", isolate(input$pol)), value = 1)
+      initializeResultsTable(filePaths())
+    }
     
     newMeasFiles <- getNewMeasFiles(filePaths())
     if (length(newMeasFiles) > 0) {
-      prog$set(detail = paste("Processing new files for ESI", isolate(input$pol)), value = 1)
+      prog$set(detail = paste("Processing new files for ESI", isolate(input$pol)), value = 2)
       succPos <- processNewFiles(filePaths())
       if (succPos) {
         showNotification(
@@ -107,7 +112,7 @@ server <- function(input, output, session) {
       showNotification(paste("No new files found in ESI", isolate(input$pol)))
     }
     
-    prog$set(detail = "Complete", value = 2)
+    prog$set(detail = "Complete", value = 3)
 
     prog$close()
    
@@ -128,39 +133,35 @@ server <- function(input, output, session) {
   }) %>% 
     bindEvent(input$pol, input$newFiles)
   
-  output$inten <- renderPlot(makeTrendPlot(results(), fixDates(input$dates), "int_h"))
+  output$inten <- renderPlot(makeTrendPlot(results(), input$dates, "int_h"))
   output$intenHist <- renderPlot(makeBellCurve(
     results(),
-    fixDates(input$dates),
+    input$dates,
     "int_h",
-    input$pol,
     filePaths()
   ))
   
-  output$intenA <- renderPlot(makeTrendPlot(results(), fixDates(input$dates), "int_a"))
+  output$intenA <- renderPlot(makeTrendPlot(results(), input$dates, "int_a"))
   output$intenAHist <- renderPlot(makeBellCurve(
     results(),
-    fixDates(input$dates),
+    input$dates,
     "int_a",
-    input$pol,
     filePaths()
   ))
   
-  output$mDa <- renderPlot(makeTrendPlot(results(), fixDates(input$dates), "delta_mz_mDa"))
+  output$mDa <- renderPlot(makeTrendPlot(results(), input$dates, "delta_mz_mDa"))
   output$mDaHist <- renderPlot(makeBellCurve(
     results(),
-    fixDates(input$dates),
+    input$dates,
     "delta_mz_mDa",
-    input$pol,
     filePaths()
   ))
   
-  output$RT <- renderPlot(makeTrendPlot(results(), fixDates(input$dates), "delta_rt_min"))
+  output$RT <- renderPlot(makeTrendPlot(results(), input$dates, "delta_rt_min"))
   output$RTHist <- renderPlot(makeBellCurve(
     results(),
-    fixDates(input$dates),
+    input$dates,
     "delta_rt_min",
-    input$pol,
     filePaths()
   ))
   
@@ -169,7 +170,6 @@ server <- function(input, output, session) {
     results(),
     fixDates(input$dates),
     "peak_width_min",
-    input$pol,
     filePaths()
   ))
 }

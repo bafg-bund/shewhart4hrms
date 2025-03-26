@@ -76,19 +76,9 @@ newDirTree <- function(path) {
 }
 
 
-#' Initiate processing of mzXML files
-#'
-#' @param path Path to shewhart4hrms directory
-#'
-#' @return TRUE if it runs to the end
-#' @export
-#'
-#' @examples shewhart4hrms::initiate("~/linsensuppe")
-initiate <- function(path, polarity = "pos") {
+
+initializeResultsTable <- function(filePaths) {
   
-  checkShewartDir(path)
-  filePaths <- newFilePaths(path, polarity = polarity)
-  stopifnot(all(polInFileName(filePaths)))
   numFiles <- length(getDataFiles(filePaths))
   
   if (numFiles == 0) {

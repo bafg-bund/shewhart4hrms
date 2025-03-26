@@ -27,4 +27,6 @@
 #' @import ntsworkflow
 #' @import glue
 #' @import logger
+#' @import ggplot2
+#' @import shiny
 "_PACKAGE"

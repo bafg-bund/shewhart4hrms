@@ -47,11 +47,11 @@ checkShewartDir <- function(shewhartPath, polarity = "pos") {
     stop("No is-table file found in ", testFilePaths$isTable)
 }
 
-checkForPosResults <- function(shewhartPath) {
-  testFilePaths <- newFilePaths(shewhartPath, "pos")
-  if (!all(file.exists(testFilePaths$results, testFilePaths$is_table)))
-    stop("No data found, first run shewhart4hrms::intiate('path-to-shewart-directory') to process the first file (must be positive mode ESI)")
-}
+# checkForPosResults <- function(shewhartPath) {
+#   testFilePaths <- newFilePaths(shewhartPath, "pos")
+#   if (!all(file.exists(testFilePaths$results, testFilePaths$is_table)))
+#     stop("No data found, first run shewhart4hrms::intiate('path-to-shewart-directory') to process the first file (must be positive mode ESI)")
+# }
 
 
 checkFileNamesHavePol <- function(filePaths) {
@@ -63,7 +63,7 @@ checkFileNamesHavePol <- function(filePaths) {
 
 checkFileNamesHavePolShiny <- function(filePaths, prog) {
   filesOk <- polInFileName(filePaths)
-  if (!all(filesOk)) {
+  if (!any(filesOk)) {
     showNotification(
       makePolPatternErrorText(filePaths, filesOk), 
       type = "error"
@@ -78,7 +78,7 @@ polInFileName <- function(filePaths) {
 
 makePolPatternErrorText <- function(filePaths, filesOk) {
   paste(
-    "All files must contain '",filePaths$fileNamePolPattern, "' in the name",
+    "Some files must contain '",filePaths$fileNamePolPattern, "' in the name",
     "The following files are not valid:",
     paste(list.files(filePaths$mzxmlDataFiles)[!filesOk], collapse = ", ")
   )
@@ -107,4 +107,9 @@ getResults <- function(filePaths) {
   results <- read.csv(filePaths$results)
   results$time <- as.POSIXct(results$time, origin = "1970-01-01 00:00.00 UTC", tz = "Europe/Berlin")
   results
+}
+
+isInitiated <- function(filePaths) {
+  if (file.exists(filePaths$results))
+    nrow(read.csv(filePaths$results)) > 0 else FALSE
 }
