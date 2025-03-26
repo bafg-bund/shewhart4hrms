@@ -1,23 +1,24 @@
 
 
-setupTestDir <- function(nameTestDir, .local_envir) {
+setupTestDir <- function(nameTestDir, .local_envir, polarity) {
   localDir <- file.path(withr::local_tempdir(.local_envir = .local_envir), nameTestDir)
   suppressMessages(newDirTree(localDir))
-  dataFiles <- list.files(test_path("fixtures", "hrmsDataFiles"), full.names = T)
+  dataFiles <- list.files(test_path("fixtures", "hrmsDataFiles"), full.names = T, pattern = polarity)
   
   newDirForData <- file.path(localDir, "mzXML-data-files")
   for (f in dataFiles) {
     file.copy(f, newDirForData)
   }
-  # for different modification time
+  # For different modification time
   dataFilesNew <- list.files(newDirForData, full.names = T)
   dataFilesNew <- dataFilesNew[order(dataFilesNew)]
+  measTimes <- stringr::str_extract(basename(dataFilesNew), "\\d{8}")
   mapply(
     function(file, newTime) Sys.setFileTime(file, newTime), 
     dataFilesNew,
-    lubridate::ymd(c(20230812, 20230813))
+    lubridate::ymd(measTimes)
   )
   
-  initiate(localDir)
+  initiate(localDir, polarity = polarity)
   localDir
 }

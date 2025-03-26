@@ -129,24 +129,54 @@ server <- function(input, output, session) {
     bindEvent(input$pol, input$newFiles)
   
   output$inten <- renderPlot(makeTrendPlot(results(), fixDates(input$dates), "int_h"))
-  output$intenHist <- renderPlot(makeBellCurve(results(), fixDates(input$dates), "int_h", input$pol, filePaths()))
+  output$intenHist <- renderPlot(makeBellCurve(
+    results(),
+    fixDates(input$dates),
+    "int_h",
+    input$pol,
+    filePaths()
+  ))
   
   output$intenA <- renderPlot(makeTrendPlot(results(), fixDates(input$dates), "int_a"))
-  output$intenAHist <- renderPlot(makeBellCurve(results(), fixDates(input$dates), "int_a", input$pol, filePaths()))
+  output$intenAHist <- renderPlot(makeBellCurve(
+    results(),
+    fixDates(input$dates),
+    "int_a",
+    input$pol,
+    filePaths()
+  ))
   
   output$mDa <- renderPlot(makeTrendPlot(results(), fixDates(input$dates), "delta_mz_mDa"))
-  output$mDaHist <- renderPlot(makeBellCurve(results(), fixDates(input$dates), "delta_mz_mDa", input$pol, filePaths()))
+  output$mDaHist <- renderPlot(makeBellCurve(
+    results(),
+    fixDates(input$dates),
+    "delta_mz_mDa",
+    input$pol,
+    filePaths()
+  ))
   
   output$RT <- renderPlot(makeTrendPlot(results(), fixDates(input$dates), "delta_rt_min"))
-  output$RTHist <- renderPlot(makeBellCurve(results(), fixDates(input$dates), "delta_rt_min", input$pol, filePaths()))
+  output$RTHist <- renderPlot(makeBellCurve(
+    results(),
+    fixDates(input$dates),
+    "delta_rt_min",
+    input$pol,
+    filePaths()
+  ))
   
   output$width <- renderPlot(makeTrendPlot(results(), fixDates(input$dates), "peak_width_min"))
-  output$widthHist <- renderPlot(makeBellCurve(results(), fixDates(input$dates), "peak_width_min", input$pol, filePaths()))
+  output$widthHist <- renderPlot(makeBellCurve(
+    results(),
+    fixDates(input$dates),
+    "peak_width_min",
+    input$pol,
+    filePaths()
+  ))
 }
 
 shinyApp(ui = ui, server = server)
 
-# Copyright 2020-2022 Bundesanstalt für Gewässerkunde
+# Copyright 2020-2025 Bundesanstalt für Gewässerkunde
 # This file is part of shewhart4hrms
 # shewhart4hrms is free software: you can redistribute it and/or modify it under the 
 # terms of the GNU General Public License as published by the Free Software 
