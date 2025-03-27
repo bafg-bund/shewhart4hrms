@@ -3,11 +3,6 @@
 
 
 
-fixDates <- function(dates) {
-  attr(dates, "tzone") <- "Europe/Berlin"
-  c(dates[1]-10, dates[2]+10)
-}
-
 makeTrendPlot <- function(df, dates, type) {
   ploti <- ggplot(df, aes_(quote(time), as.name(type))) + 
     geom_point() + 
@@ -35,6 +30,11 @@ makeBellCurve <- function(df, dates, type, filePaths) {
   newPlot
 }
 
+
+fixDates <- function(dates) {
+  attr(dates, "tzone") <- "Europe/Berlin"
+  c(dates[1]-10, dates[2]+10)
+}
 makeBellCurveOld <- function(df, dates, type, pol_i, filePaths) {
   dates <- fixDates(dates)
   se <- readSettings(filePaths)

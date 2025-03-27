@@ -47,11 +47,6 @@ checkShewartDir <- function(shewhartPath, polarity = "pos") {
     stop("No is-table file found in ", testFilePaths$isTable)
 }
 
-# checkForPosResults <- function(shewhartPath) {
-#   testFilePaths <- newFilePaths(shewhartPath, "pos")
-#   if (!all(file.exists(testFilePaths$results, testFilePaths$is_table)))
-#     stop("No data found, first run shewhart4hrms::intiate('path-to-shewart-directory') to process the first file (must be positive mode ESI)")
-# }
 
 
 checkFileNamesHavePol <- function(filePaths) {
