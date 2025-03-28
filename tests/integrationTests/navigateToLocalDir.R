@@ -1,0 +1,2 @@
+
+rstudioapi::filesPaneNavigate(localDir)

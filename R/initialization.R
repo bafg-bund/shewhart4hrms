@@ -39,6 +39,11 @@ newDirTree <- function(path) {
     file.path(path, "settings")
   )
   
+  file.copy(
+    system.file("example-settings", "warning_limits.csv", package = "shewhart4hrms"),
+    file.path(path, "settings")
+  )
+  
   # TEMPORARY Place dummy DB in dir and add path to settings
   file.copy(
     system.file("example-settings", "CSL_olmesartan-d6.db", package = "shewhart4hrms"),

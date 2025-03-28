@@ -21,13 +21,14 @@ newFilePaths <- function(rootPath, polarity) {
   x[["mzxmlDataFiles"]] <- file.path(rootPath, "mzXML-data-files")
   x[["logFile"]] <- file.path(rootPath, "log.txt")
   x[["settings"]] <- file.path(rootPath, "settings", "settings.yml")
+  x[["warningLevels"]] <- file.path(rootPath, "settings", "warningLevels.csv")
   x[["rootDir"]] <- rootPath
   x[["report"]] <- file.path(rootPath, "results", glue("shewhart-{polarity}.Report"))
   x[["results"]] <- file.path(rootPath, "results", glue("{polarity}_results.csv"))
   x[["isTable"]] <- file.path(rootPath, "settings", glue("is-table-{polarity}.csv"))
   x[["pol"]] <- polarity
   x[["fileNamePolPattern"]] <- getFileNamePolPattern(x, polarity)
-  structure(x, class = c("filePaths", "list"))
+  structure(x, class = c("FilePaths", "list"))
 }
 
 getFileNamePolPattern <- function(filePaths, polarity) {

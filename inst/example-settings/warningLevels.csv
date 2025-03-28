@@ -1,0 +1,3 @@
+IS,parameter,polarity,upper_warning,lower_warning
+DummyIS1,int_h,pos,600,400
+DummyIS3HighInten,int_h,pos,,40000

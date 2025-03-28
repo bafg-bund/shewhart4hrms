@@ -18,6 +18,7 @@ processNewFiles <- function(filePaths) {
   invisible(TRUE)
 }
 
+
 getNewMeasFiles <- function(filePaths) {
   if (file.exists(filePaths$results)) {
     alreadyProcessed <- read.csv(filePaths$results)$samp

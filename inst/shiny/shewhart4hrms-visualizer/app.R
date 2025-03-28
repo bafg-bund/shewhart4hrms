@@ -7,8 +7,8 @@ if (!exists("globalwd"))
        to create a new folder and viewShewhart('path-to-shewart-directory') to open the app")
 
 startTimeValue <- Sys.time() - 1000
-ui <- fluidPage(
-  fluidRow(
+ui <- fixedPage(
+  fixedRow(
     column(3, h2(paste(
       "shewhart4hrms", basename(globalwd)
     ))),
@@ -41,35 +41,10 @@ ui <- fluidPage(
       actionButton(inputId = "newFiles", label = "Refresh")
     )
   ),
-  fluidRow(column(
+  fixedRow(column(
     12,
-    tabsetPanel(
-      tabPanel(
-        "Intensity_cps",
-        column(8, plotOutput("inten")),
-        column(4, plotOutput("intenHist"))
-      ),
-      tabPanel(
-        "Intensity_area",
-        column(8, plotOutput("intenA")),
-        column(4, plotOutput("intenAHist"))
-      ),
-      tabPanel(
-        "Mass shift mDa",
-        column(8, plotOutput("mDa")),
-        column(4, plotOutput("mDaHist"))
-      ),
-      tabPanel(
-        "RT shift min", 
-        column(8, plotOutput("RT")),
-        column(4, plotOutput("RTHist"))
-      ),
-      tabPanel(
-        "Width min", 
-        column(8, plotOutput("width")),
-        column(4, plotOutput("widthHist"))
-      )
-    )
+    uiOutput("tabSet")
+    
   ))
 )
 
@@ -123,8 +98,14 @@ server <- function(input, output, session) {
     resExists <- file.exists(filePaths()$results)
     validate(need(resExists, "No data found"))
     req(resExists)
-    df <- getResults(filePaths())
-    df
+    results <- getResults(filePaths())
+    req(nrow(results) > 0)
+    results
+  })
+  
+  warningLevels <- reactive({
+    warningLevels <- read.csv(filePaths()$warningLevels)
+    subset(warningLevels, polarity == isolate(input$pol))
   })
   
   observe({
@@ -133,7 +114,41 @@ server <- function(input, output, session) {
   }) %>% 
     bindEvent(input$pol, input$newFiles)
   
-  output$inten <- renderPlot(makeTrendPlot(results(), input$dates, "int_h"))
+  plotHeightSpec <- reactive({
+    numIs <- length(unique(results()$IS))
+    paste0(numIs * 200, "px")
+  })
+  
+  output$tabSet <- renderUI({
+    tabsetPanel(
+      tabPanel(
+        "Intensity",
+        column(8, plotOutput("inten", height = plotHeightSpec())),
+        column(4, plotOutput("intenHist", height = plotHeightSpec()))
+      ),
+      tabPanel(
+        "Area",
+        column(8, plotOutput("intenA", height = plotHeightSpec())),
+        column(4, plotOutput("intenAHist", height = plotHeightSpec()))
+      ),
+      tabPanel(
+        "Mass shift mDa",
+        column(8, plotOutput("mDa", height = plotHeightSpec())),
+        column(4, plotOutput("mDaHist", height = plotHeightSpec()))
+      ),
+      tabPanel(
+        "RT shift min", 
+        column(8, plotOutput("RT", height = plotHeightSpec())),
+        column(4, plotOutput("RTHist", height = plotHeightSpec()))
+      ),
+      tabPanel(
+        "Width min", 
+        column(8, plotOutput("width", height = plotHeightSpec())),
+        column(4, plotOutput("widthHist", height = plotHeightSpec()))
+      )
+    )
+  })
+  output$inten <- renderPlot(makeTrendPlot(results(), warningLevels(), input$dates, "int_h"))
   output$intenHist <- renderPlot(makeBellCurve(
     results(),
     input$dates,
