@@ -12,7 +12,7 @@
 #' @return TRUE if successful
 #' @export
 #'
-#' @examples shewhart4hrms::create_dir("~/linsensuppe")
+#' @examples shewhart4hrms::newDirTree("~/linsensuppe")
 newDirTree <- function(path) {
   if (!dir.exists(path))
     dir.create(path) else stop("You must create a new directory")
@@ -21,7 +21,6 @@ newDirTree <- function(path) {
   dir.create(file.path(path, "results"))
   dir.create(file.path(path, "settings"))
   
-  # in the settings folder, place IS-Table examples
   file.copy(
     system.file("example-settings", "is-table-pos.csv", package = "shewhart4hrms"),
     file.path(path, "settings")
@@ -31,8 +30,6 @@ newDirTree <- function(path) {
     system.file("example-settings", "is-table-neg.csv", package = "shewhart4hrms"),
     file.path(path, "settings")
   )
-  
-  # place an example settings.yml file
   
   file.copy(
     system.file("example-settings", "processingSettings.yml", package = "shewhart4hrms"),
@@ -80,8 +77,6 @@ newDirTree <- function(path) {
   invisible(TRUE)
 }
 
-
-
 initializeResultsTable <- function(filePaths) {
   
   numFiles <- length(getDataFiles(filePaths))
@@ -107,9 +102,7 @@ processFirstFile <- function(filePaths) {  # pol <- "pos"
   firstFile <- getFirstFile(filePaths)
   
   shewhart <- Report$new()
-  
-  # Temp add dummy DB
-  shewhart$addDB(F, settings$db_path)
+  shewhart$addDB(F, settings$db_path)   # Temp add dummy DB
   shewhart$addRawFiles(F, firstFile)
   shewhart$addIS(F, filePaths$isTable)
   shewhart$changeSettings("area_threshold", settings[[paste0("area_threshold_", filePaths$pol)]])
@@ -138,5 +131,5 @@ getFirstFile <- function(filePaths) {
   rownames(fileDetails[with(fileDetails, order(as.POSIXct(mtime))), ])[1]
 }
 
-# Copyright 2020-2025 Bundesanstalt für Gewässerkunde
+# Copyright 2025 Bundesanstalt für Gewässerkunde
 # This file is part of shewhart4hrms

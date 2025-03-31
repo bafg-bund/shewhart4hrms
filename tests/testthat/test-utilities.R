@@ -6,3 +6,6 @@ test_that("You can tell a tree is initiated", {
   initializeResultsTable(filePaths)
   expect_true(isInitiated(filePaths))
 })
+
+# Copyright 2025 Bundesanstalt für Gewässerkunde
+# This file is part of shewhart4hrms

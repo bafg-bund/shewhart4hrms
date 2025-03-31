@@ -6,4 +6,5 @@ filePaths <- newFilePaths(localDir, "pos")
 initializeResultsTable(filePaths)
 viewShewhart(localDir)
 
-
+# Copyright 2025 Bundesanstalt für Gewässerkunde
+# This file is part of shewhart4hrms

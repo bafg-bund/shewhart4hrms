@@ -1,6 +1,4 @@
 
-
-
 processNewFiles <- function(filePaths) {
   
   koka <- ntsworkflow::loadReport(F, filePaths$report)
@@ -17,7 +15,6 @@ processNewFiles <- function(filePaths) {
   addLineToLogFile(filePaths, "Completed processing new files")
   invisible(TRUE)
 }
-
 
 getNewMeasFiles <- function(filePaths) {
   if (file.exists(filePaths$results)) {
@@ -55,11 +52,10 @@ writeResultsTable <- function(filePaths) {
   )
 }
 
-
-addMeasTime <- function(filePaths, resTable) {
-  fullPaths <- file.path(filePaths$mzxmlDataFiles, resTable$samp)
-  modTimes <- as.integer(file.mtime(fullPaths))
-  resTable$time <- as.POSIXct(modTimes, origin = "1970-01-01 00:00.00 UTC", tz = "Europe/Berlin")
+addMzRtData <- function(filePaths, resTable) {
+  resTable <- merge(resTable, makeIsTableForPol(filePaths))
+  resTable$delta_mz_mDa <- abs(resTable$mz - resTable$mz_calc) * 1000 
+  resTable$delta_rt_min <- abs(resTable$rt - resTable$rt_known)
   resTable
 }
 
@@ -68,10 +64,10 @@ addPeakWidth <- function(resTable) {
   resTable
 }
 
-addMzRtData <- function(filePaths, resTable) {
-  resTable <- merge(resTable, makeIsTableForPol(filePaths))
-  resTable$delta_mz_mDa <- abs(resTable$mz - resTable$mz_calc) * 1000 
-  resTable$delta_rt_min <- abs(resTable$rt - resTable$rt_known)
+addMeasTime <- function(filePaths, resTable) {
+  fullPaths <- file.path(filePaths$mzxmlDataFiles, resTable$samp)
+  modTimes <- as.integer(file.mtime(fullPaths))
+  resTable$time <- as.POSIXct(modTimes, origin = "1970-01-01 00:00.00 UTC", tz = "Europe/Berlin")
   resTable
 }
 
@@ -84,4 +80,5 @@ makeIsTableForPol <- function(filePaths) {
   isPol
 }
 
-
+# Copyright 2025 Bundesanstalt für Gewässerkunde
+# This file is part of shewhart4hrms

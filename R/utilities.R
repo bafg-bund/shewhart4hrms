@@ -1,9 +1,4 @@
 
-
-
-# Copyright 2020-2025 Bundesanstalt für Gewässerkunde
-# This file is part of shewhart4hrms
-
 #' Start shewhart4hrms visualizer
 #' 
 #' @export
@@ -111,3 +106,6 @@ isInitiated <- function(filePaths) {
   if (file.exists(filePaths$results))
     nrow(read.csv(filePaths$results)) > 0 else FALSE
 }
+
+# Copyright 2025 Bundesanstalt für Gewässerkunde
+# This file is part of shewhart4hrms

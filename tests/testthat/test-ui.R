@@ -10,3 +10,6 @@ test_that("A trend plot can be made", {
   expect_length(testPlot$layers, 4)
   expect_equal(as.character(testPlot$facet$params$rows), "~name_is")
 })
+
+# Copyright 2025 Bundesanstalt für Gewässerkunde
+# This file is part of shewhart4hrms

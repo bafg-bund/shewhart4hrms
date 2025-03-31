@@ -75,3 +75,6 @@ requireFileExists <- function(path) {
   validate(need(fileExits, paste("No results table found, check", path)))
   req(fileExits)
 }
+
+# Copyright 2025 Bundesanstalt für Gewässerkunde
+# This file is part of shewhart4hrms

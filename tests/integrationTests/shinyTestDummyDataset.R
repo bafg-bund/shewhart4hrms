@@ -9,3 +9,6 @@ file.copy(test_path("fixtures", "pos_resultsDummyDataset.csv"), filePaths$result
 file.copy(test_path("fixtures", "warningLevels.csv"), filePaths$warningLevels, overwrite = T)
 
 viewShewhart(localDir)
+
+# Copyright 2025 Bundesanstalt für Gewässerkunde
+# This file is part of shewhart4hrms

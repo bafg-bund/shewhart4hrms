@@ -28,3 +28,6 @@ test_that("We can process a second file after initiation in neg mode", {
   expect_equal(resultsTable[2, "intensity"], 15587)
   expect_equal(nrow(resultsTable), 2)
 })
+
+# Copyright 2025 Bundesanstalt für Gewässerkunde
+# This file is part of shewhart4hrms

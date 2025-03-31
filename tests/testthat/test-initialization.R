@@ -37,3 +37,6 @@ test_that("initiate neg produces the correct csv output files", {
   expect_equal(nrow(resultsTable), 1)
   
 })
+
+# Copyright 2025 Bundesanstalt für Gewässerkunde
+# This file is part of shewhart4hrms

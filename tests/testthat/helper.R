@@ -21,3 +21,6 @@ setupTestDir <- function(nameTestDir, .local_envir) {
   )
   localDir
 }
+
+# Copyright 2025 Bundesanstalt für Gewässerkunde
+# This file is part of shewhart4hrms

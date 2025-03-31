@@ -1,5 +1,4 @@
 
-
 if (!exists("globalwd"))
   stop("Path to shewhart4hrms directory not found, use shewhart4hrms::newDirTree('path-to-shewart-directory')
        to create a new folder and viewShewhart('path-to-shewart-directory') to open the app")
@@ -133,6 +132,5 @@ server <- function(input, output, session) {
 
 shinyApp(ui = ui, server = server)
 
-# Copyright 2020-2025 Bundesanstalt für Gewässerkunde
+# Copyright 2025 Bundesanstalt für Gewässerkunde
 # This file is part of shewhart4hrms
-
