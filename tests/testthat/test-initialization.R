@@ -19,7 +19,7 @@ test_that("initiate pos produces the correct csv output files", {
   resultsTable <- read.csv(filePaths$results)
   
   expect_length(allFiles, 12)
-  expect_equal(resultsTable[1, "int_h"], 448)
+  expect_equal(resultsTable[1, "intensity"], 448)
   expect_equal(nrow(resultsTable), 1)
   
 })
@@ -33,7 +33,7 @@ test_that("initiate neg produces the correct csv output files", {
   resultsTable <- read.csv(filePaths$results)
   
   expect_length(allFiles, 12)
-  expect_equal(resultsTable[1, "int_h"], 15210)
+  expect_equal(resultsTable[1, "intensity"], 15210)
   expect_equal(nrow(resultsTable), 1)
   
 })

@@ -47,12 +47,14 @@ writeResultsTable <- function(filePaths) {
   resTable <- addMzRtData(filePaths, resTable)
   resTable <- addPeakWidth(resTable)
   resTable <- addMeasTime(filePaths, resTable)
+  resTable <- dplyr::rename(resTable, name_is = IS, intensity = int_h, area = int_a)
   write.csv(
     resTable, 
     file = filePaths$results, 
     row.names = F
   )
 }
+
 
 addMeasTime <- function(filePaths, resTable) {
   fullPaths <- file.path(filePaths$mzxmlDataFiles, resTable$samp)

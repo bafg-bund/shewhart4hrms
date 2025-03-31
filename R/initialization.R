@@ -35,12 +35,12 @@ newDirTree <- function(path) {
   # place an example settings.yml file
   
   file.copy(
-    system.file("example-settings", "settings.yml", package = "shewhart4hrms"),
+    system.file("example-settings", "processingSettings.yml", package = "shewhart4hrms"),
     file.path(path, "settings")
   )
   
   file.copy(
-    system.file("example-settings", "warning_limits.csv", package = "shewhart4hrms"),
+    system.file("example-settings", "warningLimits.csv", package = "shewhart4hrms"),
     file.path(path, "settings")
   )
   
@@ -51,7 +51,7 @@ newDirTree <- function(path) {
   )
   pathDb <- file.path(normalizePath(path, "/"), "CSL_olmesartan-d6.db")
   textToAdd <- c("# Dummy DB location (temporary)", paste0("db_path: ", pathDb))
-  settingsPath <- file.path(path, "settings", "settings.yml")
+  settingsPath <- file.path(path, "settings", "processingSettings.yml")
   cat(textToAdd, file = settingsPath, append = TRUE, sep = "\n")
   
   # place bat file in directory for starting the app
@@ -137,8 +137,6 @@ getFirstFile <- function(filePaths) {
   fileDetails <- file.info(dataFiles)
   rownames(fileDetails[with(fileDetails, order(as.POSIXct(mtime))), ])[1]
 }
-
-
 
 # Copyright 2020-2025 Bundesanstalt für Gewässerkunde
 # This file is part of shewhart4hrms

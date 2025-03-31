@@ -1,7 +1,5 @@
 
 
-
-
 if (!exists("globalwd"))
   stop("Path to shewhart4hrms directory not found, use shewhart4hrms::newDirTree('path-to-shewart-directory')
        to create a new folder and viewShewhart('path-to-shewart-directory') to open the app")
@@ -38,7 +36,7 @@ ui <- fixedPage(
     column(
       1, 
       style = "margin-top: 25px;", 
-      actionButton(inputId = "newFiles", label = "Refresh")
+      actionButton(inputId = "refresh", label = "Refresh")
     )
   ),
   fixedRow(column(
@@ -48,7 +46,6 @@ ui <- fixedPage(
   ))
 )
 
-## server ####
 server <- function(input, output, session) {
   
   checkShewartDir(globalwd)
@@ -65,8 +62,6 @@ server <- function(input, output, session) {
     prog$set(message = "Processing new IS files", detail = "looking for new files")
 
     checkFileNamesHavePolShiny(filePaths(), prog)
-    filesHavePol <- polInFileName(filePaths())
-    req(any(filesHavePol))
     
     if (!isInitiated(filePaths())) {
       prog$set(detail = paste("Initiating database for ESI", isolate(input$pol)), value = 1)
@@ -87,23 +82,21 @@ server <- function(input, output, session) {
       showNotification(paste("No new files found in ESI", isolate(input$pol)))
     }
     
-    prog$set(detail = "Complete", value = 3)
-
     prog$close()
    
-  }) %>% bindEvent(input$newFiles)
+  }) %>% bindEvent(input$refresh)
   
   results <- reactive({
-    input$newFiles
-    resExists <- file.exists(filePaths()$results)
-    validate(need(resExists, "No data found"))
-    req(resExists)
+    input$refresh  
+    requireFileExists(filePaths()$results)
     results <- getResults(filePaths())
     req(nrow(results) > 0)
     results
   })
   
   warningLevels <- reactive({
+    input$refresh
+    requireFileExists(filePaths()$warningLevels)
     warningLevels <- read.csv(filePaths()$warningLevels)
     subset(warningLevels, polarity == isolate(input$pol))
   })
@@ -111,96 +104,35 @@ server <- function(input, output, session) {
   observe({
     updateSliderInput(session, "dates", min = min(results()$time), max = max(results()$time),
                       value = c(min(results()$time), max(results()$time)))
-  }) %>% 
-    bindEvent(input$pol, input$newFiles)
+  }) %>% bindEvent(input$pol, input$refresh)
   
   plotHeightSpec <- reactive({
-    numIs <- length(unique(results()$IS))
+    numIs <- length(unique(results()$name_is))
     paste0(numIs * 200, "px")
   })
   
   output$tabSet <- renderUI({
-    tabsetPanel(
-      tabPanel(
-        "Intensity",
-        column(8, plotOutput("inten", height = plotHeightSpec())),
-        column(4, plotOutput("intenHist", height = plotHeightSpec()))
-      ),
-      tabPanel(
-        "Area",
-        column(8, plotOutput("intenA", height = plotHeightSpec())),
-        column(4, plotOutput("intenAHist", height = plotHeightSpec()))
-      ),
-      tabPanel(
-        "Mass shift mDa",
-        column(8, plotOutput("mDa", height = plotHeightSpec())),
-        column(4, plotOutput("mDaHist", height = plotHeightSpec()))
-      ),
-      tabPanel(
-        "RT shift min", 
-        column(8, plotOutput("RT", height = plotHeightSpec())),
-        column(4, plotOutput("RTHist", height = plotHeightSpec()))
-      ),
-      tabPanel(
-        "Width min", 
-        column(8, plotOutput("width", height = plotHeightSpec())),
-        column(4, plotOutput("widthHist", height = plotHeightSpec()))
-      )
-    )
+    makeTabSetPanel(plotHeightSpec = plotHeightSpec())
   })
-  output$inten <- renderPlot(makeTrendPlot(results(), warningLevels(), input$dates, "int_h"))
-  output$intenHist <- renderPlot(makeBellCurve(
-    results(),
-    input$dates,
-    "int_h",
-    filePaths()
-  ))
   
-  output$intenA <- renderPlot(makeTrendPlot(results(), input$dates, "int_a"))
-  output$intenAHist <- renderPlot(makeBellCurve(
-    results(),
-    input$dates,
-    "int_a",
-    filePaths()
-  ))
+  output$intensityTimeSeries <- renderPlot(makeTimeSeries(results(), warningLevels(), input$dates, "intensity"))
+  output$intensityBellCurve <- renderPlot(makeHistogram(results(), input$dates, "intensity"))
   
-  output$mDa <- renderPlot(makeTrendPlot(results(), input$dates, "delta_mz_mDa"))
-  output$mDaHist <- renderPlot(makeBellCurve(
-    results(),
-    input$dates,
-    "delta_mz_mDa",
-    filePaths()
-  ))
+  output$areaTimeSeries <- renderPlot(makeTimeSeries(results(), warningLevels(), input$dates, "area"))
+  output$areaBellCurve <- renderPlot(makeHistogram(results(), input$dates, "area"))
   
-  output$RT <- renderPlot(makeTrendPlot(results(), input$dates, "delta_rt_min"))
-  output$RTHist <- renderPlot(makeBellCurve(
-    results(),
-    input$dates,
-    "delta_rt_min",
-    filePaths()
-  ))
+  output$delta_mz_mDaTimeSeries <- renderPlot(makeTimeSeries(results(), warningLevels(), input$dates, "delta_mz_mDa"))
+  output$delta_mz_mDaBellCurve <- renderPlot(makeHistogram(results(), input$dates, "delta_mz_mDa"))
   
-  output$width <- renderPlot(makeTrendPlot(results(), fixDates(input$dates), "peak_width_min"))
-  output$widthHist <- renderPlot(makeBellCurve(
-    results(),
-    fixDates(input$dates),
-    "peak_width_min",
-    filePaths()
-  ))
+  output$delta_rt_minTimeSeries <- renderPlot(makeTimeSeries(results(), warningLevels(), input$dates, "delta_rt_min"))
+  output$delta_rt_minBellCurve <- renderPlot(makeHistogram(results(), input$dates, "delta_rt_min"))
+  
+  output$peak_width_minTimeSeries <- renderPlot(makeTimeSeries(results(), warningLevels(), input$dates, "peak_width_min"))
+  output$peak_width_minBellCurve <- renderPlot(makeHistogram(results(), input$dates, "peak_width_min"))
 }
 
 shinyApp(ui = ui, server = server)
 
 # Copyright 2020-2025 Bundesanstalt für Gewässerkunde
 # This file is part of shewhart4hrms
-# shewhart4hrms is free software: you can redistribute it and/or modify it under the 
-# terms of the GNU General Public License as published by the Free Software 
-# Foundation, either version 3 of the License, or (at your option) any 
-# later version.
-# 
-# shewhart4hrms is distributed in the hope that it will be useful, but WITHOUT ANY 
-# WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS 
-# FOR A PARTICULAR PURPOSE. See the GNU General Public License for more details.
-# 
-# You should have received a copy of the GNU General Public License along 
-# with shewhart4hrms. If not, see <https://www.gnu.org/licenses/>.
+

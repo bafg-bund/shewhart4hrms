@@ -1,0 +1,20 @@
+# Settings file for shewhart4hrms ##############################################
+# Processing settings ##########################################################
+
+# mz_tol and eic_extraction width in Da
+# rt_tol in min
+# area_threshold in counts
+
+# pos 
+file_pattern_pos: .*pos.*
+mz_tol_pos: 0.005
+rt_tol_pos: 0.5
+area_threshold_pos: 1
+eic_extraction_width_pos: 0.04
+
+# neg
+file_pattern_neg: .*neg.*
+mz_tol_neg: 0.005
+rt_tol_neg: 0.5
+area_threshold_neg: 1
+eic_extraction_width_neg: 0.04

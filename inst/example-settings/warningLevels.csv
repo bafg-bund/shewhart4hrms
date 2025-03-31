@@ -1,3 +1,7 @@
-IS,parameter,polarity,upper_warning,lower_warning
-DummyIS1,int_h,pos,600,400
-DummyIS3HighInten,int_h,pos,,40000
+name_is,parameter,polarity,upper_warning,lower_warning
+DummyIS1,intensity,pos,600,400
+DummyIS3HighInten,intensity,pos,,40000
+DummyIS1,area,pos,1500,1800
+DummyIS1,delta_mz_mDa,pos,1,
+DummyIS1,delta_rt_min,pos,0.3,
+DummyIS1,peak_width_min,pos,0.2,

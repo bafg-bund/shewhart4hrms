@@ -20,7 +20,7 @@ newFilePaths <- function(rootPath, polarity) {
   x <- list()
   x[["mzxmlDataFiles"]] <- file.path(rootPath, "mzXML-data-files")
   x[["logFile"]] <- file.path(rootPath, "log.txt")
-  x[["settings"]] <- file.path(rootPath, "settings", "settings.yml")
+  x[["settings"]] <- file.path(rootPath, "settings", "processingSettings.yml")
   x[["warningLevels"]] <- file.path(rootPath, "settings", "warningLevels.csv")
   x[["rootDir"]] <- rootPath
   x[["report"]] <- file.path(rootPath, "results", glue("shewhart-{polarity}.Report"))
@@ -66,6 +66,8 @@ checkFileNamesHavePolShiny <- function(filePaths, prog) {
     )
     prog$close()
   }
+  filesHavePol <- polInFileName(filePaths)
+  req(any(filesHavePol))
 }
 
 polInFileName <- function(filePaths) {
