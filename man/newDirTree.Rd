@@ -16,5 +16,5 @@ TRUE if successful
 Creates a new shewhart4hrms directory tree and example files
 }
 \examples{
-shewhart4hrms::create_dir("~/linsensuppe")
+shewhart4hrms::newDirTree("~/linsensuppe")
 }
