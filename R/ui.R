@@ -5,27 +5,27 @@ makeTabSetPanel <- function(plotHeightSpec) {
     tabPanel(
       "intensity",
       column(8, plotOutput("intensityTimeSeries", height = plotHeightSpec)),
-      column(4, plotOutput("intensityBellCurve", height = plotHeightSpec))
+      column(4, plotOutput("intensityHistogram", height = plotHeightSpec))
     ),
     tabPanel(
       "area",
       column(8, plotOutput("areaTimeSeries", height = plotHeightSpec)),
-      column(4, plotOutput("areaBellCurve", height = plotHeightSpec))
+      column(4, plotOutput("areaHistogram", height = plotHeightSpec))
     ),
     tabPanel(
       "delta_mz_mDa",
       column(8, plotOutput("delta_mz_mDaTimeSeries", height = plotHeightSpec)),
-      column(4, plotOutput("delta_mz_mDaBellCurve", height = plotHeightSpec))
+      column(4, plotOutput("delta_mz_mDaHistogram", height = plotHeightSpec))
     ),
     tabPanel(
       "delta_rt_min", 
       column(8, plotOutput("delta_rt_minTimeSeries", height = plotHeightSpec)),
-      column(4, plotOutput("delta_rt_minBellCurve", height = plotHeightSpec))
+      column(4, plotOutput("delta_rt_minHistogram", height = plotHeightSpec))
     ),
     tabPanel(
       "peak_width_min", 
       column(8, plotOutput("peak_width_minTimeSeries", height = plotHeightSpec)),
-      column(4, plotOutput("peak_width_minBellCurve", height = plotHeightSpec))
+      column(4, plotOutput("peak_width_minHistogram", height = plotHeightSpec))
     )
   )
 }

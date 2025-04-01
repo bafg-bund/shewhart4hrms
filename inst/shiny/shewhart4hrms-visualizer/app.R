@@ -115,19 +115,19 @@ server <- function(input, output, session) {
   })
   
   output$intensityTimeSeries <- renderPlot(makeTimeSeries(results(), warningLevels(), input$dates, "intensity"))
-  output$intensityBellCurve <- renderPlot(makeHistogram(results(), input$dates, "intensity"))
+  output$intensityHistogram <- renderPlot(makeHistogram(results(), input$dates, "intensity"))
   
   output$areaTimeSeries <- renderPlot(makeTimeSeries(results(), warningLevels(), input$dates, "area"))
-  output$areaBellCurve <- renderPlot(makeHistogram(results(), input$dates, "area"))
+  output$areaHistogram <- renderPlot(makeHistogram(results(), input$dates, "area"))
   
   output$delta_mz_mDaTimeSeries <- renderPlot(makeTimeSeries(results(), warningLevels(), input$dates, "delta_mz_mDa"))
-  output$delta_mz_mDaBellCurve <- renderPlot(makeHistogram(results(), input$dates, "delta_mz_mDa"))
+  output$delta_mz_mDaHistogram <- renderPlot(makeHistogram(results(), input$dates, "delta_mz_mDa"))
   
   output$delta_rt_minTimeSeries <- renderPlot(makeTimeSeries(results(), warningLevels(), input$dates, "delta_rt_min"))
-  output$delta_rt_minBellCurve <- renderPlot(makeHistogram(results(), input$dates, "delta_rt_min"))
+  output$delta_rt_minHistogram <- renderPlot(makeHistogram(results(), input$dates, "delta_rt_min"))
   
   output$peak_width_minTimeSeries <- renderPlot(makeTimeSeries(results(), warningLevels(), input$dates, "peak_width_min"))
-  output$peak_width_minBellCurve <- renderPlot(makeHistogram(results(), input$dates, "peak_width_min"))
+  output$peak_width_minHistogram <- renderPlot(makeHistogram(results(), input$dates, "peak_width_min"))
 }
 
 shinyApp(ui = ui, server = server)
