@@ -2,7 +2,7 @@ Package: shewhart4hrms
 Type: Package
 Title: Shewhart control cards for quality control in high-resolution mass spectrometry
 Version: 0.2
-Date: 2025-03-04
+Date: 2025-04-01
 Authors@R: c(
              person(
                c("Kevin", "S."), "Jewell", email = "Jewell@bafg.de", role = c("aut", "cre"),
@@ -10,11 +10,7 @@ Authors@R: c(
               ),
              person(
                "Toni", "Köppe", email = "Koeppe@bafg.de", role = "aut",
-               comment = "Federal Institute of Hydrology (BfG) Koblenz, Germany"),
-             person(
-                "Christian", "Dietrich", email = "Christian.Dietrich@bafg.de", role = c("aut"),
-                comment = "Federal Institute of Hydrology (BfG) Koblenz, Germany"
-              ),
+               comment = "Federal Institute of Hydrology (BfG) Koblenz, Germany")
              person(
                "Arne", "Wick", email = "Wick@bafg.de", role = "aut",
                comment = "Federal Institute of Hydrology (BfG) Koblenz, Germany")
