@@ -43,7 +43,7 @@ then be installed through the R-GUI menu “Packages” =\> “Install
 packages from local files…” or through the RStudio menu “Tools” =\>
 “Install Packages…” =\> “Install from” =\> “Package archive file”. The
 compiled archive can be found on the BfG FTP server:
-`ftp.bafg.de/pub/REFERATE/g2/quality-control-shewhart4hrms/`
+`ftp.bafg.de/pub/REFERATE/g2/shewhart4hrms/`
 
 Alternatively, you can compile the package for your system using the
 `devtools` package and the source code. Only Windows 10 has been tested
@@ -68,6 +68,14 @@ name, formula, retention time and adduct for each internal standard. See
 the example files for the formating. For example, deuterium atoms are
 indicated with \[space\]2H.
 
+| name               | formula          |   rt | adduct   |
+|:-------------------|:-----------------|-----:|:---------|
+| Bezafibrat-d4      | C19H16 2H4ClNO4  | 10.9 | \[M+H\]+ |
+| Olmesartan_acid-d6 | C24H20 2H6N6O3   |  7.3 | \[M+H\]+ |
+| Iopromide-d3       | C18H21 2H3I3N3O8 |  4.7 | \[M+H\]+ |
+
+Example is-table-pos.csv file
+
 The `settings/processingSettings.yml` file contains all settings for
 measurement file processing. This is a Yaml formatted text file best
 viewed with Rstudio or notepad++. For more information on Yaml see
@@ -76,11 +84,47 @@ are already filled in but these will most likely be very different
 depending on the mass spectrometer. Especially the `area_threshold_*`
 parameter may be as high as 1e6 depending on the mass spectrometer used.
 
+Example processingSettings.yml file
+
+``` yaml
+# Settings file for shewhart4hrms ##############################################
+# Processing settings ##########################################################
+
+# mz_tol and eic_extraction width in Da
+# rt_tol in min
+# area_threshold in counts
+
+# pos 
+file_pattern_pos: .*pos.*
+mz_tol_pos: 0.005
+rt_tol_pos: 0.5
+area_threshold_pos: 1
+eic_extraction_width_pos: 0.04
+
+# neg
+file_pattern_neg: .*neg.*
+mz_tol_neg: 0.005
+rt_tol_neg: 0.5
+area_threshold_neg: 1
+eic_extraction_width_neg: 0.04
+```
+
 In the `settings/warningLevels.csv` file the user can specify where
 warning levels are to be drawn on the plots. The name of the internal
 standard is given under name_is and must match the name given in the
 `is-table-*.csv`. The parameter name must match the parameter name
 displayed in the app. It is okay if values are missing.
+
+| name_is           | parameter      | polarity | upper_warning | lower_warning |
+|:------------------|:---------------|:---------|--------------:|--------------:|
+| DummyIS1          | intensity      | pos      |         600.0 |           400 |
+| DummyIS3HighInten | intensity      | pos      |            NA |         40000 |
+| DummyIS1          | area           | pos      |        1500.0 |          1800 |
+| DummyIS1          | delta_mz_mDa   | pos      |           1.0 |            NA |
+| DummyIS1          | delta_rt_min   | pos      |           0.3 |            NA |
+| DummyIS1          | peak_width_min | pos      |           0.2 |            NA |
+
+Example warningLevels.csv
 
 You must first copy the mzXML files of your measurements into the
 `mzXML-data-files` sub-directory. For conversion to mzXML use
