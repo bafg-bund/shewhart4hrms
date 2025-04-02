@@ -14,19 +14,14 @@ quick visual indication of exceedances.
 
 ## Installation of shewhart4hrms
 
-R version 4.4.2 and ntsworkflow are required (see
-<https://github.com/bafg-bund/ntsworkflow>).
+R version 4.4.2 and `ntsworkflow` are required (see
+github.com/bafg-bund/ntsworkflow).
 
-On Windows 10, the compiled package archive `shewhart4hrms_*.*.zip` can
-then be installed through the R-GUI menu “Packages” =\> “Install
-packages from local files…” or through the RStudio menu “Tools” =\>
-“Install Packages…” =\> “Install from” =\> “Package archive file”. The
-compiled archive can be found on the BfG FTP server:
-`ftp.bafg.de/pub/REFERATE/g2/shewhart4hrms/`
+First follow the installation instructions for `ntsworkflow`, then run
 
-Alternatively, you can compile the package for your system using the
-`devtools` package and the source code. Only Windows 10 has been tested
-so far.
+``` r
+renv::install("bafg-bund/shewhart4hrms")
+```
 
 ## Usage
 
