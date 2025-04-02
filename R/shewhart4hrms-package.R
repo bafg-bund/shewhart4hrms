@@ -10,7 +10,6 @@
 #'
 #' @name shewhart4hrms
 #' @import ntsworkflow
-#' @import glue
 #' @import logger
 #' @import ggplot2
 #' @import shiny

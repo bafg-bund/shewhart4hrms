@@ -18,9 +18,9 @@ newFilePaths <- function(rootPath, polarity) {
   x[["settings"]] <- file.path(rootPath, "settings", "processingSettings.yml")
   x[["warningLevels"]] <- file.path(rootPath, "settings", "warningLevels.csv")
   x[["rootDir"]] <- rootPath
-  x[["report"]] <- file.path(rootPath, "results", glue("shewhart-{polarity}.Report"))
-  x[["results"]] <- file.path(rootPath, "results", glue("{polarity}_results.csv"))
-  x[["isTable"]] <- file.path(rootPath, "settings", glue("is-table-{polarity}.csv"))
+  x[["report"]] <- file.path(rootPath, "results", glue::glue("shewhart-{polarity}.Report"))
+  x[["results"]] <- file.path(rootPath, "results", glue::glue("{polarity}_results.csv"))
+  x[["isTable"]] <- file.path(rootPath, "settings", glue::glue("is-table-{polarity}.csv"))
   x[["pol"]] <- polarity
   x[["fileNamePolPattern"]] <- getFileNamePolPattern(x, polarity)
   structure(x, class = c("FilePaths", "list"))

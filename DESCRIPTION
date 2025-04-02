@@ -10,7 +10,7 @@ Authors@R: c(
               ),
              person(
                "Toni", "Köppe", email = "Koeppe@bafg.de", role = "aut",
-               comment = "Federal Institute of Hydrology (BfG) Koblenz, Germany")
+               comment = "Federal Institute of Hydrology (BfG) Koblenz, Germany"),
              person(
                "Arne", "Wick", email = "Wick@bafg.de", role = "aut",
                comment = "Federal Institute of Hydrology (BfG) Koblenz, Germany")
@@ -22,6 +22,10 @@ Description: A package for automated processing of LC-HRMS data to record intens
 License: GNU GPL-3.0
 Encoding: UTF-8
 RoxygenNote: 7.3.2
+Imports:
+    shiny,
+    logger,
+    ggplot2
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
