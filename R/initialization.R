@@ -37,7 +37,7 @@ newDirTree <- function(path) {
   )
   
   file.copy(
-    system.file("example-settings", "warningLimits.csv", package = "shewhart4hrms"),
+    system.file("example-settings", "warningLevels.csv", package = "shewhart4hrms"),
     file.path(path, "settings")
   )
   
@@ -53,11 +53,12 @@ newDirTree <- function(path) {
   
   # place bat file in directory for starting the app
   
-  ptr <- normalizePath(file.path(R.home(), "bin", "R.exe"))
-  pth <- normalizePath(path, winslash = "/")
-  batpth <- file.path(path, sprintf("shewhart4hrms-%s.bat", basename(path)))
-  cat(sprintf("\"%s\" -e \"shewhart4hrms::viewshewhart('%s')\"\npause", ptr, pth), 
-      file = batpth)
+  pathToR <- normalizePath(file.path(R.home(), "bin", "R.exe"))
+  shewhartDirForR <- normalizePath(path, winslash = "/")
+  currentWorkDir <- normalizePath(getwd(), winslash = "\\")
+  batPath <- file.path(path, sprintf("shewhart4hrms-%s.bat", basename(path)))
+  cat(sprintf("cd /d \"%s\"\n\"%s\" -e \"shewhart4hrms::viewShewhart('%s')\"\npause", currentWorkDir, pathToR, shewhartDirForR), 
+      file = batPath)
   
   # place readme file in the directory
   readme <- sprintf("
@@ -66,7 +67,7 @@ newDirTree <- function(path) {
     Step 2: Save data into the %s/mzXML-data-files directory
     Step 3: Open %s
     Step 4: Click 'Refresh' to process the new files
-    ", pth, basename(batpth)
+    ", shewhartDirForR, basename(batPath)
   )
   
   cat(readme, file = file.path(path, "README.txt"))
@@ -77,6 +78,7 @@ newDirTree <- function(path) {
   invisible(TRUE)
 }
 
+#' @export
 initializeResultsTable <- function(filePaths) {
   
   numFiles <- length(getDataFiles(filePaths))

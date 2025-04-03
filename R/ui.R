@@ -1,5 +1,5 @@
 
-
+#' @export
 makeTabSetPanel <- function(plotHeightSpec) {
   tabsetPanel(
     tabPanel(
@@ -30,7 +30,7 @@ makeTabSetPanel <- function(plotHeightSpec) {
   )
 }
 
-
+#' @export
 makeTimeSeries <- function(results, warningLevels, dates, type) {
   
   warningLevels <- subset(warningLevels, parameter == type)  # warningLevels is already subsetted for polarity
@@ -47,7 +47,7 @@ makeTimeSeries <- function(results, warningLevels, dates, type) {
     theme(legend.position = "none")
 }
 
-
+#' @export
 makeHistogram <- function(results, dates, type) {
   latestLines <- subset(results, time == dates[2])
   results <- results[results$time >= dates[1] & results$time <= dates[2], ]
@@ -70,6 +70,7 @@ computeBinwidth <- function(x) {
   range / k
 }
 
+#' @export
 requireFileExists <- function(path) {
   fileExits <- file.exists(path)
   validate(need(fileExits, paste("No results table found, check", path)))

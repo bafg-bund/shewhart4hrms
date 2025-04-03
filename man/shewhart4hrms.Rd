@@ -20,7 +20,6 @@ See the Readme.md file for a description of how to use shewhart4hrms
 Authors:
 \itemize{
   \item Toni Köppe \email{Koeppe@bafg.de} (Federal Institute of Hydrology (BfG) Koblenz, Germany)
-  \item Christian Dietrich \email{Christian.Dietrich@bafg.de} (Federal Institute of Hydrology (BfG) Koblenz, Germany)
   \item Arne Wick \email{Wick@bafg.de} (Federal Institute of Hydrology (BfG) Koblenz, Germany)
 }
 

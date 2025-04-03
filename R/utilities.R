@@ -11,6 +11,7 @@ viewShewhart <- function(path) {
   shiny::runApp(appDir, display.mode = "normal", launch.browser = TRUE)
 }
 
+#' @export
 newFilePaths <- function(rootPath, polarity) {
   x <- list()
   x[["mzxmlDataFiles"]] <- file.path(rootPath, "mzXML-data-files")
@@ -31,6 +32,7 @@ getFileNamePolPattern <- function(filePaths, polarity) {
   switch(polarity, pos = se$file_pattern_pos, neg = se$file_pattern_neg)
 }
 
+#' @export
 checkShewartDir <- function(shewhartPath, polarity = "pos") {
   testFilePaths <- newFilePaths(shewhartPath, polarity)
   if (!all(c("mzXML-data-files", "results", "settings") %in% list.dirs(shewhartPath, full.names = F)))
@@ -52,6 +54,7 @@ checkFileNamesHavePol <- function(filePaths) {
   }
 }
 
+#' @export
 checkFileNamesHavePolShiny <- function(filePaths, prog) {
   filesOk <- polInFileName(filePaths)
   if (!any(filesOk)) {
@@ -96,12 +99,14 @@ addLineToLogFile <- function(filePaths, messageText, logLevel = INFO) {
   log_level(logLevel, messageText)
 }
 
+#' @export
 getResults <- function(filePaths) {
   results <- read.csv(filePaths$results)
   results$time <- as.POSIXct(results$time, origin = "1970-01-01 00:00.00 UTC", tz = "Europe/Berlin")
   results
 }
 
+#' @export
 isInitiated <- function(filePaths) {
   if (file.exists(filePaths$results))
     nrow(read.csv(filePaths$results)) > 0 else FALSE

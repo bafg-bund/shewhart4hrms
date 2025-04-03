@@ -1,4 +1,5 @@
 
+#' @export
 processNewFiles <- function(filePaths) {
   
   koka <- ntsworkflow::loadReport(F, filePaths$report)
@@ -16,6 +17,7 @@ processNewFiles <- function(filePaths) {
   invisible(TRUE)
 }
 
+#' @export
 getNewMeasFiles <- function(filePaths) {
   if (file.exists(filePaths$results)) {
     alreadyProcessed <- read.csv(filePaths$results)$samp
