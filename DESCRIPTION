@@ -26,6 +26,9 @@ Imports:
     shiny,
     logger,
     ggplot2
+remotes:
+    bafg-bund/ntsworkflow
 Suggests: 
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    withr
 Config/testthat/edition: 3
