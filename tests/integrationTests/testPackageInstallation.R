@@ -20,3 +20,4 @@ if (suppressWarnings(suppressMessages(require(shewhart4hrms))))
 
 detach("package:shewhart4hrms", unload = T)
 setwd(oldWd)
+renv::activate(oldWd)
