@@ -47,6 +47,7 @@ ui <- fixedPage(
 
 server <- function(input, output, session) {
   require(shewhart4hrms)
+  require(magrittr)
   
   checkShewartDir(globalwd)
   
