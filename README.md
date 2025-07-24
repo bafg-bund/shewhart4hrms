@@ -14,13 +14,15 @@ quick visual indication of exceedances.
 
 ## Installation of shewhart4hrms
 
-R version 4.4.2 and `ntsworkflow` are required (see
-github.com/bafg-bund/ntsworkflow).
+R version 4.5.1 and `ntsworkflow` 0.2.9 (or later) and the CSL (spectral
+library) version 25.5 (or later) are required (see [ntsworkflow on
+Github](github.com/bafg-bund/ntsworkflow)). For other dependencies see
+the `DESCRIPTION`.
 
 First follow the installation instructions for `ntsworkflow`, then run
 
 ``` r
-renv::install("bafg-bund/shewhart4hrms")
+remotes::install_github("bafg-bund/shewhart4hrms")
 ```
 
 ## Usage
